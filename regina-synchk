@@ -15,8 +15,19 @@ stripped="${source}.stripped.rexx"
 numbered="${source}.numbered.rexx"
 log="${source}.log.txt"
 
+# Strip all comments from script
+sed -E 's/^\s*(.*)\/\*.*\*\/\s*(.*)/\1\2/g' "${source}.rexx" \
+  | sed -E 's/^\s*(.*)\/\*.*\*\/\s*(.*)/\1\2/g' \
+  | sed '/\/\*/,/*\//d;/^\s*$/d' > "${stripped}"
+
+# Number the stripped script
+cat -n "${stripped}" > "${numbered}"
+
+# Execute script capturing error output
+regina -tO "${stripped}" 2> "${log}" 1> /dev/null
+
 # Emit source code for context
-cat "${source}.rexx"
+cat "${numbered}"
 
 # Remove temporary files
 clean
