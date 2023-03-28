@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+clean () {
+  :
+}
+
+# Ensure single, non-empty string argument passed
+[ $# -ne 1 -o -z "${1}" ] && { echo "Usage: ${0} <Rexx file>" ; exit 1 ; }
+
+# Input file: Rexx script sans extension
+source="${1##*/}" ; source="${source%.*}"
+
+# Emit source code for context
+cat "${source}.rexx"
+
+# Remove temporary files
+clean
+
+# Assume a syntax error occurred
+exit 1
