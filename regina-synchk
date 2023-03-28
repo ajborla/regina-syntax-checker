@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 clean () {
-  :
+  rm -f ${stripped} ${numbered} ${log}
 }
 
 # Ensure single, non-empty string argument passed
@@ -9,6 +9,11 @@ clean () {
 
 # Input file: Rexx script sans extension
 source="${1##*/}" ; source="${source%.*}"
+
+# Temporary files
+stripped="${source}.stripped.rexx"
+numbered="${source}.numbered.rexx"
+log="${source}.log.txt"
 
 # Emit source code for context
 cat "${source}.rexx"
