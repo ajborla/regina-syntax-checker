@@ -26,6 +26,20 @@ cat -n "${stripped}" > "${numbered}"
 # Execute script capturing error output
 regina -tO "${stripped}" 2> "${log}" 1> /dev/null
 
+# Remove any stack trace lines from the log file
+sed -i '/\+\+\+/d' "${log}"
+
+# Determine number of lines in the log file
+nlines=$(wc -l "${log}" | cut -d' ' -f 1)
+
+# Conditionaliy parse log output
+case "${nlines}" in
+  0) clean ; exit 0 ;;
+  1) logdata='one log line' ;;
+  2) logdata='two log lines' ;;
+  *) printf 'Corrupted log file contents' ; exit 1 ;;
+esac
+
 # Emit source code for context
 cat "${numbered}"
 
