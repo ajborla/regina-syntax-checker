@@ -35,13 +35,20 @@ nlines=$(wc -l "${log}" | cut -d' ' -f 1)
 # Conditionaliy parse log output
 case "${nlines}" in
   0) clean ; exit 0 ;;
-  1) logdata='one log line' ;;
+  1) logdata=$(sed -E 's/^Error\s*([0-9]+)\s*.*,\s*line\s*([0-9]+)\:\s*(.*)/\2#\3/g' "${log}") ;;
   2) logdata='two log lines' ;;
-  *) printf 'Corrupted log file contents' ; exit 1 ;;
+  *) printf 'Corrupted log file contents' ; clean ; exit 1 ;;
 esac
 
-# Emit source code for context
+lineno=$(echo "${logdata}" | cut -d'#' -f1)
+msg=$(echo "${logdata}" | cut -d'#' -f2)
+line=$(grep -E "^\s*${lineno}" "${numbered}" | tr '\t' ' ' | tr -s ' ')
+linecode=$(echo "${line}" | cut -d' ' -f3-)
+
+# Emit source code for context, and highlight source of problem
 cat "${numbered}"
+printf "\n${msg} on LINE: ${lineno} -> ${linecode}\n"
+
 
 # Remove temporary files
 clean
