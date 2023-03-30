@@ -32,20 +32,36 @@ sed -i '/\+\+\+/d' "${log}"
 # Determine number of lines in the log file
 nlines=$(wc -l "${log}" | cut -d' ' -f 1)
 
-# Conditionaliy parse log output
-case "${nlines}" in
-  0) clean ; exit 0 ;;
-  1) logdata=$(sed -E 's/^Error\s*([0-9]+)\s*.*,\s*line\s*([0-9]+)\:\s*(.*)/\2#\3/g' "${log}") ;;
-  2) head -1 "${log}" | grep '\[.*\]' 2>&1 >/dev/null
-     [ $? -eq 0 ] \
-       && logdata=$(tail -1 "${log}" | sed -E 's/.*\[(.*) at line\s*([0-9]+).*/\2#\1/g') \
-       || logdata=$(head -1 "${log}" | sed -E 's/^Error\s*([0-9]+)\s*.*,\s*line\s*([0-9]+)\:\s*(.*)/\2#\3/g') ;;
-  *) printf 'Corrupted log file contents' ; clean ; exit 1 ;;
-esac
+# Handle special case of 'command not found' /
+#  'not recognized as an internal or external command'
+chkline=$(head -1 "${log}") ; echo "${chkline}" | grep 'command not found' 2>&1 >/dev/null
+if [ $? -eq 0 ] ; then
+  cmdname=$(echo "${chkline}" | cut -d' ' -f2 | cut -d':' -f1)
+else
+  echo "${chkline}" | grep 'external command' 2>&1 >/dev/null
+  [ $? -eq 0 ] && cmdname=$(echo "${chkline}" | cut -d' ' -f1 | tr -d "'")
+fi
 
-lineno=$(echo "${logdata}" | cut -d'#' -f1)
-msg=$(echo "${logdata}" | cut -d'#' -f2)
-line=$(grep -E "^\s*${lineno}" "${numbered}" | tr '\t' ' ' | tr -s ' ')
+if [ -z "${cmdname}" ] ; then
+  # Conditionaliy parse log output
+  case "${nlines}" in
+    0) clean ; exit 0 ;;
+    1) logdata=$(sed -E 's/^Error\s*([0-9]+)\s*.*,\s*line\s*([0-9]+)\:\s*(.*)/\2#\3/g' "${log}") ;;
+    2) head -1 "${log}" | grep '\[.*\]' 2>&1 >/dev/null
+       [ $? -eq 0 ] \
+         && logdata=$(tail -1 "${log}" | sed -E 's/.*\[(.*) at line\s*([0-9]+).*/\2#\1/g') \
+         || logdata=$(head -1 "${log}" | sed -E 's/^Error\s*([0-9]+)\s*.*,\s*line\s*([0-9]+)\:\s*(.*)/\2#\3/g') ;;
+    *) printf 'Corrupted log file contents' ; clean ; exit 1 ;;
+  esac
+  lineno=$(echo "${logdata}" | cut -d'#' -f1)
+  msg=$(echo "${logdata}" | cut -d'#' -f2)
+  line=$(grep -E "^\s*${lineno}" "${numbered}" | tr '\t' ' ' | tr -s ' ')
+else
+  line=$(grep -i "${cmdname}" "${numbered}" | tr '\t' ' ' | tr -s ' ')
+  lineno=$(echo "${line}" | cut -d' ' -f2)
+  msg='Procedure or function name is probably misspelled'
+fi
+
 linecode=$(echo "${line}" | cut -d' ' -f3-)
 
 # Emit source code for context, and highlight source of problem
