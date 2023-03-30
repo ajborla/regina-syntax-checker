@@ -10,6 +10,9 @@ clean () {
 # Input file: Rexx script sans extension
 source="${1##*/}" ; source="${source%.*}"
 
+# Check whether source file exists
+[ -f "${source}.rexx" ] || { echo "Source file not found" ; exit 1 ; }
+
 # Temporary files
 stripped="${source}.stripped.rexx"
 numbered="${source}.numbered.rexx"
