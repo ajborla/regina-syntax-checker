@@ -13,6 +13,9 @@ source="${1##*/}" ; source="${source%.*}"
 # Check whether source file exists
 [ -f "${source}.rexx" ] || { echo "Source file not found" ; exit 1 ; }
 
+# Check whether Regina executable file exists
+which regina >/dev/null || { echo "Regina executable not in path" ; exit 1 ; }
+
 # Temporary files
 stripped="${source}.stripped.rexx"
 numbered="${source}.numbered.rexx"
