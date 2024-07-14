@@ -4,6 +4,6 @@ call NeedsAnArgument
 exit 0
 
 NeedsAnArgument : procedure
- b = 1 + a
- nop
+  b = 1 + a
+  nop
 return c
