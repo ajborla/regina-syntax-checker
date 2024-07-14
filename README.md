@@ -7,19 +7,15 @@
 | contact: | [ajborla@bigpond.com](ajborla@bigpond.com) |
 | license: | MIT |
 
-## Description
-### Technologies
-### Features
+## Overview
 
 ## Installation
 
 ## Usage
 
-## Meta
-### Motivation
-### Acknowledgements
-### Project Status
-### TODO
+## Acknowledgements
+
+## TODO
 
 ## Contributing
 Please submit and comment on bug reports and feature requests.
