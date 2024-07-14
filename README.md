@@ -22,7 +22,7 @@ Please submit and comment on bug reports and feature requests.
 
 To submit a patch:
 
-1. Fork it (https://github.com/ajborla/regina-synchk/fork).
+1. Fork it (https://github.com/ajborla/regina-syntax-checker/fork).
 2. Create your feature branch (`git checkout -b my-new-feature`).
 3. Make changes. Write and run tests.
 4. Commit your changes (`git commit -am 'Add some feature'`).
