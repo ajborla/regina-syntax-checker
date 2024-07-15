@@ -19,6 +19,11 @@ A successful syntax check would see no output emitted, with a zero exit status, 
 It is anticipated that such syntax checking could prove useful as part of Rexx script testing regimes.
 
 ## Installation
+No formal installation process is required.
+
+A single file, `regina-synchk`, needs to be copied from the current repository to a target directory on the execution path. This would usually be, `/usr/local/bin`, if system-wide access is required.
+
+The script has been tested using Regina versions 3.9.5 and 3.9.6, and tested on CentOS 7, Ubuntu 20.04 and 22.04, and on Windows using [Git for Windows](https://gitforwindows.org/).
 
 ## Usage
 
