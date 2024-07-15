@@ -23,6 +23,10 @@ It is anticipated that such syntax checking could prove useful as part of Rexx s
 ## Usage
 
 ## Acknowledgements
+Kudos to Mark Hessling for the tremendous effort in having maintained [Regina Rexx](https://regina-rexx.sourceforge.io/) for so many years.
 
 ## TODO
-
+- Revise script, to remove dependence on external utilities like `grep` and `sed`, replacing with in-built `bash` facilities
+- Replace script with an equivalent `Rexx` script
+- Add more `example-error-*.rexx` test scripts
+- Add a `test-regina-synchk` script
