@@ -26,6 +26,40 @@ A single file, `regina-synchk`, needs to be copied from the current repository t
 The script has been tested using Regina versions 3.9.5 and 3.9.6, and tested on CentOS 7, Ubuntu 20.04 and 22.04, and on Windows using [Git for Windows](https://gitforwindows.org/).
 
 ## Usage
+Once installed, invoke script as follows:
+
+`./regina-synchk`
+
+The following will be emitted:
+
+`Usage: ./regina-synchk <Rexx file>`
+
+indicating that a Rexx script name is expected.
+
+If the sample Rexx scripts have been copied to the current directory, try invoking using:
+
+`./regina-synchk error-sample-no-error`
+
+No output will be emitted, and a zero exit status returned, indicating the nominated script has passed the syntax check.
+
+Invoking:
+
+`./regina-synchk error-sample-bad-arithmetic`
+
+should result in an exit status of 1 returned, and the following output emitted:
+
+```
+     1  call NeedsAnArgument
+     2  exit 0
+     3  NeedsAnArgument : procedure
+     4    b = 1 + a
+     5    nop
+     6  return c
+
+Bad arithmetic conversion on LINE: 4 -> b = 1 + a
+```
+
+The error type and location within the nominated script file should be evident.
 
 ## Acknowledgements
 Kudos to Mark Hessling for the tremendous effort in having maintained [Regina Rexx](https://regina-rexx.sourceforge.io/) for so many years.
