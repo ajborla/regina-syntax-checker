@@ -28,23 +28,23 @@ The script has been tested using Regina versions 3.9.5 and 3.9.6, and tested on 
 ## Usage
 Once installed, invoke script as follows:
 
-`./regina-synchk`
+`regina-synchk`
 
 The following will be emitted:
 
-`Usage: ./regina-synchk <Rexx file>`
+`Usage: regina-synchk <Rexx file>`
 
 indicating that a Rexx script name is expected.
 
 If the sample Rexx scripts have been copied to the current directory, try invoking using:
 
-`./regina-synchk error-sample-no-error`
+`regina-synchk error-sample-no-error`
 
 No output will be emitted, and a zero exit status returned, indicating the nominated script has passed the syntax check.
 
 Invoking:
 
-`./regina-synchk error-sample-bad-arithmetic`
+`regina-synchk error-sample-bad-arithmetic`
 
 should result in an exit status of 1 returned, and the following output emitted:
 
